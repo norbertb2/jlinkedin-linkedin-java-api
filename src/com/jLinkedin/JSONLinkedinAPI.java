@@ -14,7 +14,9 @@ import com.OAuth.OAuthService;
  */
 public class JSONLinkedinAPI 
 {
-	XMLLinkedinAPI xmlLinkedinAPI;
+	private XMLLinkedinAPI xmlLinkedinAPI;
+	
+	//CONSTRUCTOR
 	/**
 	 * @see org.jLinkedin.XMLLinkedinAPI
 	 */
@@ -22,6 +24,9 @@ public class JSONLinkedinAPI
 	{
 		xmlLinkedinAPI= new XMLLinkedinAPI(service);
 	}
+	
+	//GET-STANDARD-PROFILE METHODS
+	
 	/**
 	 * Wrap org.jLinkedinAPI.getCurrentUserStandardProfile()
 	 * @see org.jLinkedinAPI
@@ -31,33 +36,8 @@ public class JSONLinkedinAPI
 	{
 		return parseXMLResults(xmlLinkedinAPI.getCurrentUserStandardProfile());
 	}
-	/**
-	 * Wrap org.jLinkedinAPI.getCurrentUserPublicProfile()
-	 * @see org.jLinkedinAPI
-	 * @return JSONObject
-	 */
-	public JSONObject getCurrentUserPublicProfile()
-	{
-		return parseXMLResults(xmlLinkedinAPI.getCurrentUserPublicProfile());
-	}
-	/**
-	 * Wrap org.jLinkedinAPI.getUserStandardProfileById(String id)
-	 * @see org.jLinkedinAPI
-	 * @return JSONObject
-	 */
-	public JSONObject getUserStandardProfileById(String id)
-	{
-		return parseXMLResults(xmlLinkedinAPI.getUserStandardProfileById(id));
-	}
-	/**
-	 * Wrap org.jLinkedinAPI.getUserPublicProfileById(String id)
-	 * @see org.jLinkedinAPI
-	 * @return JSONObject
-	 */
-	public JSONObject getUserPublicProfileById(String id)
-	{
-		return parseXMLResults(xmlLinkedinAPI.getUserPublicProfileById(id));
-	}
+	
+
 	/**
 	 * Wrap org.jLinkedinAPI.getUserStandardProfileByProfileURL(String profileURL)
 	 * @see org.jLinkedinAPI
@@ -67,6 +47,39 @@ public class JSONLinkedinAPI
 	{
 		return parseXMLResults(xmlLinkedinAPI.getUserStandardProfileByProfileURL(profileURL));
 	}
+	
+	/**
+	 * Wrap org.jLinkedinAPI.getUserStandardProfileById(String id)
+	 * @see org.jLinkedinAPI
+	 * @return JSONObject
+	 */
+	public JSONObject getUserStandardProfileById(String id)
+	{
+		return parseXMLResults(xmlLinkedinAPI.getUserStandardProfileById(id));
+	}
+	
+	//GET-PUBLIC-PROFILE METHODS
+	
+	/**
+	 * Wrap org.jLinkedinAPI.getUserPublicProfileById(String id)
+	 * @see org.jLinkedinAPI
+	 * @return JSONObject
+	 */
+	public JSONObject getUserPublicProfileById(String id)
+	{
+		return parseXMLResults(xmlLinkedinAPI.getUserPublicProfileById(id));
+	}
+	
+	/**
+	 * Wrap org.jLinkedinAPI.getCurrentUserPublicProfile()
+	 * @see org.jLinkedinAPI
+	 * @return JSONObject
+	 */
+	public JSONObject getCurrentUserPublicProfile()
+	{
+		return parseXMLResults(xmlLinkedinAPI.getCurrentUserPublicProfile());
+	}
+	
 	/**
 	 * Wrap org.jLinkedinAPI.getUserPublicProfileByProfileURL(String profileURL)
 	 * @see org.jLinkedinAPI
@@ -77,6 +90,39 @@ public class JSONLinkedinAPI
 		return parseXMLResults(xmlLinkedinAPI.getUserPublicProfileByProfileURL(profileURL));
 	}
 	
+//GET-PUBLIC-PROFILE METHODS
+	
+	/**
+	 * Wrap org.jLinkedinAPI.getUserPublicProfileById(String id)
+	 * @see org.jLinkedinAPI
+	 * @return JSONObject
+	 */
+	public JSONObject getUserFullProfileById(String id)
+	{
+		return parseXMLResults(xmlLinkedinAPI.getUserFullProfileById(id));
+	}
+	
+	/**
+	 * Wrap org.jLinkedinAPI.getCurrentUserFullProfile()
+	 * @see org.jLinkedinAPI
+	 * @return JSONObject
+	 */
+	public JSONObject getCurrentUserFullProfile()
+	{
+		return parseXMLResults(xmlLinkedinAPI.getCurrentUserFullProfile());
+	}
+	
+	/**
+	 * Wrap org.jLinkedinAPI.getUserFullProfileByProfileURL(String profileURL)
+	 * @see org.jLinkedinAPI
+	 * @return JSONObject
+	 */
+	public JSONObject getUserFullProfileByProfileURL(String profileURL)
+	{
+		return parseXMLResults(xmlLinkedinAPI.getUserFullProfileByProfileURL(profileURL));
+	}
+	
+	//GET CONNECTIONS METHODS
 	/**
 	 * Wrap org.jLinkedinAPI.getCurrentUserConnections()
 	 * @see org.jLinkedinAPI
