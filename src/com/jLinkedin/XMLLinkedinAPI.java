@@ -17,6 +17,20 @@ import com.OAuth.OAuthService;
  * All results are XML documents wrapped in a Document object. For further informations about
  * Document object please visit <a href="http://www.jdom.org/docs/apidocs/">http://www.jdom.org/docs/apidocs/</a><br>
  * 
+ * Exemple of use:
+ * {@code 
+ * 			String consumerKey="sod0ru0eu3eohu030e3294e32";
+ * 			String consumerSecret="e98803u4324u32043248u0983"; 
+ * 			OAuthService service=new OAuthService(consumerKey,consumerSecret);
+ * 			....
+ * 			// some code which will provied to get the access token
+ * 			//e.g. String accessToken= you.setAccessToken();
+ *			...
+ *			service.setAccessToken(verificationCode);
+ *			XMLLinkedinAPI api= new XMLLinkedinAPI(service);
+ *			System.out.print(XMLLinkedinAPI.printXMLDocument(api.getCurrentUserFullProfile()));
+ *	}
+ * 
  * @author Luca Adalberto Vandro
  *
  */
@@ -28,12 +42,15 @@ public class XMLLinkedinAPI {
 	protected final String userProfileById="http://api.linkedin.com/v1/people/id=";
 	protected final String userProfileByProfileURL="http://api.linkedin.com/v1/people/url=";
 	protected final String publicModifier=":public";
+	protected final String fullModifier=":(id,first-name,last-name,headline,picture-url,date-of-birth,public-profile-url,location,industry,distance,relation-to-viewer,current-status,current-status-timestamp,summary,specialties,proposal-comments,associations,honors,interests,positions,educations,phone-numbers,im-accounts,twitter-accounts,main-address,member-url-resources,num-connections,num-recommenders)";//)";
 	protected final String connectionsModifier="/connections";
 	/*
 	 * Object properties
 	 */
 	protected URL requestURL;
 	protected OAuthService oauthService;
+	
+	//CONSTRUCTOR
 	
 	/**
 	 * 
@@ -50,9 +67,11 @@ public class XMLLinkedinAPI {
 		}
 	}
 	
+	//GET-PUBLIC-PROFILE METHODS
+	
 	/**
 	 * 
-	 * @return a Document object containing the XML document with the user profile
+	 * @return a Document object containing the XML document with the user PUBLIC profile
 	 * More info about Document object on http://www.jdom.org/docs/apidocs/
 	 */
 	public Document getCurrentUserPublicProfile()
@@ -66,7 +85,7 @@ public class XMLLinkedinAPI {
 	/**
 	 * 
 	 * @require id: require a valid id. Please check id you are looking for is an existing id
-	 * @return a Document object containing the XML document with the user profile
+	 * @return a Document object containing the XML document with the user PUBLIC profile
 	 * More info about Document object on http://www.jdom.org/docs/apidocs/
 	 */
 	public Document getUserPublicProfileById(String id)
@@ -82,7 +101,7 @@ public class XMLLinkedinAPI {
 	/**
 	 * 
 	 * @require a valid url. Please check url you are looking for is an existing url
-	 * @return a Document object containing the XML document with the user profile
+	 * @return a Document object containing the XML document with the user PUBLIC profile
 	 * More info about Document object at http://www.jdom.org/docs/apidocs/
 	 */
 	public Document getUserPublicProfileByProfileURL(String profileURL)
@@ -95,9 +114,57 @@ public class XMLLinkedinAPI {
 		return xmlDocument;
 	}
 	
+	//GET-FULL-PROFILE METHODS
+	
 	/**
 	 * 
-	 * @return a Document object containing the XML document with the user profile
+	 * @return a Document object containing the XML document with the user FULL profile
+	 * More info about Document object on http://www.jdom.org/docs/apidocs/
+	 */
+	public Document getCurrentUserFullProfile()
+	{
+		String xmlTextualResponse=makeRequest(currentUserURL+fullModifier);
+		Document xmlDocument= XMLBuilder(xmlTextualResponse);
+		
+		return xmlDocument;
+	}
+	
+	/**
+	 * 
+	 * @require id: require a valid id. Please check id you are looking for is an existing id
+	 * @return a Document object containing the XML document with the user FULL profile
+	 * More info about Document object on http://www.jdom.org/docs/apidocs/
+	 */
+	public Document getUserFullProfileById(String id)
+	{
+		String userProfileByIdURL=userProfileById+id+fullModifier;
+		
+		String xmlTextualResponse=makeRequest(userProfileByIdURL);
+		Document xmlDocument= XMLBuilder(xmlTextualResponse);
+		
+		return xmlDocument;
+	}
+	
+	/**
+	 * 
+	 * @require a valid url. Please check url you are looking for is an existing url
+	 * @return a Document object containing the XML document with the user FULL profile
+	 * More info about Document object at http://www.jdom.org/docs/apidocs/
+	 */
+	public Document getUserFullProfileByProfileURL(String profileURL)
+	{
+		String userProfileByProfileURLURL=userProfileById+profileURL+fullModifier;
+		
+		String xmlTextualResponse=makeRequest(userProfileByProfileURLURL);
+		Document xmlDocument= XMLBuilder(xmlTextualResponse);
+		
+		return xmlDocument;
+	}
+	
+	//GET-STANDARD-PROFILE METHODS
+	/**
+	 * 
+	 * @return a Document object containing the XML document with the user STANDARD profile
 	 * More info about Document object on http://www.jdom.org/docs/apidocs/
 	 */
 	public Document getCurrentUserStandardProfile()
@@ -111,7 +178,7 @@ public class XMLLinkedinAPI {
 	/**
 	 * 
 	 * @require id: require a valid id. Please check id you are looking for is an existing id
-	 * @return a Document object containing the XML document with the user profile
+	 * @return a Document object containing the XML document with the user STANDARD profile
 	 * More info about Document object on http://www.jdom.org/docs/apidocs/
 	 */
 	public Document getUserStandardProfileById(String id)
@@ -127,7 +194,7 @@ public class XMLLinkedinAPI {
 	/**
 	 * 
 	 * @require a valid url. Please check url you are looking for is an existing url
-	 * @return a Document object containing the XML document with the user profile
+	 * @return a Document object containing the XML document with the user STANDARD profile
 	 * More info about Document object at http://www.jdom.org/docs/apidocs/
 	 */
 	public Document getUserStandardProfileByProfileURL(String profileURL)
@@ -139,6 +206,8 @@ public class XMLLinkedinAPI {
 		
 		return xmlDocument;
 	}
+	
+	//USER CONNECTIONS METHODS
 	
 	/**
 	 * @require id: require a valid id. Please check id you are looking for is an existing id
@@ -182,6 +251,19 @@ public class XMLLinkedinAPI {
 		
 		return xmlDocument;
 	}
+	
+	//STATIC METHODS
+	
+	/**
+	 * @return a string with your XML Document
+	 */
+	public static String printXMLDocument(Document xmlDocument)
+	{
+		XMLOutputter xmlPrinter= new XMLOutputter();
+		return xmlPrinter.outputString(xmlDocument);
+	}
+	
+	//PROTECTED METHODS
 	
 	protected String makeRequest(String requestURL)
 	{	
@@ -250,12 +332,6 @@ public class XMLLinkedinAPI {
 		
 		return resultDocument;
 	}
-	/**
-	 * @return a string with your XML Document
-	 */
-	public static String printXMLDocument(Document xmlDocument)
-	{
-		XMLOutputter xmlPrinter= new XMLOutputter();
-		return xmlPrinter.outputString(xmlDocument);
-	}
+	
+	
 }
